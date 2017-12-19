@@ -42,7 +42,7 @@
 </template>
 
 <script>
-	import goodsData from '@/store/newGoodsData'
+	import goodsData from '@/lib/newGoodsData'
 	export default {
 		data () {
 			return {

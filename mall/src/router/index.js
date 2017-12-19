@@ -9,9 +9,9 @@ import Shop from '@/views/shop'
 export default new Router({
   routes: [
 	  {
-	  	path: '/',
-	  	name: Shop,
-	  	component: Shop
+	  	path : '/',
+	  	name : Shop,
+	  	component : Shop
 	  }
   ]
 })
