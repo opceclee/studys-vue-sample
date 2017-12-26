@@ -60,6 +60,15 @@
 </template>
 
 <script>
+	import carPenel from '@/components/car-penel'
+	export default () {
+		data () {
+			
+		},
+		components: {
+			carPenel
+		}
+	}
 </script>
 
 <style>
