@@ -33,7 +33,7 @@
 												</h6>
 											</div>
 										</div>
-										<div class="del-btn">删除</div>
+										<div class="del-btn" @click="delCarPanelHeadl(item.sku_id)">删除</div>
 									</div>
 								</div>
 							</li>
@@ -66,7 +66,9 @@
 			}
 		},
 		methods: {
-			
+			delCarPanelHeadl (id) {
+				this.$store.commit('delCarPanelData',id)
+			}
 		}
 	}
 </script>
