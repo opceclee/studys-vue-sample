@@ -2,34 +2,34 @@
 	<li class="nav-cart">
 		<a href="javascript:;">购物车</a>
 		<!--根据class改变颜色-->
-		<span class="cart-empty-num cart-num">
-			<i>0</i>
+		<span class="cart-empty-num " :class="{'cart-num':count>0}">
+			<i>{{count}}</i>
 		</span>
 		<div class="nav-cart-wrapper">
 			<div class="nav-cart-list">
-				<div class="empty">
+				<div class="empty" v-if="count<=0">
 					<h3>购物车为空</h3>
 					<p>您还没有选购任何商品，现在前往商城选购吧!</p>
 				</div>
-				<div class="full">
+				<div class="full" v-else>
 					<div class="nav-cart-items">
 						<ul>
-							<li class="clear">
+							<li class="clear" v-for="item,index in carPanelData">
 								<div class="cart-item js-cart-item cart-item-sell">
 									<div class="cart-item-inner">
 										<div class="item-thumb">
-											<img>
+											<img :src="item.ali_image+'?x-oss-process=image/resize,w_80/quality,Q_100/format,webp'">
 										</div>
 										<div class="item-desc">
 											<div class="cart-cell">
 												<h4> 
-													<a href="#/item/100027401">坚果 Pro 钢化玻璃保护膜（前屏用）</a>
+													<a href="#/item/100027401">{{item.title}}</a>
 												</h4>
 												<p class="attrs">
-													<span>透明</span>
+													<span>{{item.spec_json.show_name}}</span>
 												</p>
 												<h6>
-													<span class="price-icon">¥</span><span class="price-num">49</span><span class="item-num">x 1</span>
+													<span class="price-icon">¥</span><span class="price-num">{{item.price}}</span><span class="item-num">x {{item.count}}</span>
 												</h6>
 											</div>
 										</div>
@@ -40,8 +40,8 @@
 						</ul>
 					</div>
 					<div class="nav-cart-total">
-						<p>共 <strong class="ng-binding">1</strong> 件商品</p>
-						<h5>合计：<span class="price-icon">¥</span><span class="price-num ng-binding" ng-bind="cartMenu.totalPrice">49</span></h5>
+						<p>共 <strong class="ng-binding">{{count}}</strong> 件商品</p>
+						<h5>合计：<span class="price-icon">¥</span><span class="price-num ng-binding" ng-bind="cartMenu.totalPrice">{{totle}}</span></h5>
 						<h6>
 							<a ng-href="http://www.smartisan.com/shop/#/cart" class="nav-cart-btn" href="http://www.smartisan.com/shop/#/cart">去购物车</a>
 						</h6>
@@ -53,8 +53,19 @@
 </template>
 
 <script>
-	export default () {
-		data () {
+	export default {
+		computed: {
+			carPanelData () {
+				return this.$store.state.carPanelData
+			},
+			count () {
+				return this.$store.getters.totleCount
+			},
+			totle () {
+				return this.$store.getters.totlePanel
+			}
+		},
+		methods: {
 			
 		}
 	}

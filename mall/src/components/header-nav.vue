@@ -61,10 +61,7 @@
 
 <script>
 	import carPenel from '@/components/car-penel'
-	export default () {
-		data () {
-			
-		},
+	export default {
 		components: {
 			carPenel
 		}
