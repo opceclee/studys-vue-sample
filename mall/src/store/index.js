@@ -7,6 +7,22 @@ let store = new Vuex.Store({
 	state: {
 		carPanelData: []
 	},
+	getters: {
+		totleCount (state) {
+			let count = 0
+			state.carPanelData.forEach((goods) => {
+				count += goods.count
+			})
+			return count
+		},
+		totlePanel (state) {
+			let price = 0
+			state.carPanelData.forEach((goods) => {
+				price += goods.price * goods.count
+			})
+			return price
+		}
+	},
 	mutations: {
 		addCarPanelData (state,data){
 			let bOff = true
@@ -26,6 +42,14 @@ let store = new Vuex.Store({
 			}
 			console.log(state.carPanelData);
 			
+		},
+		delCarPanelData (state,id) {
+			state.carPanelData.forEach((goods,index) => {
+				if(goods.sku_id === id){
+					state.carPanelData.splice(index,1)
+					return
+				}
+			})
 		}
 	}
 })
