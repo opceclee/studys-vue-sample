@@ -286,13 +286,14 @@
 }
 
 .nav-cart-wrapper {
-  display: none;
+  /*display: none;*/
   position: absolute;
   right: 0;
   padding-top: 18px;
-  opacity: 0;
-  visibility: hidden;
-  top: -3000px;
+  /*opacity: 0;*/
+  /*visibility: hidden;*/
+  /*top: -3000px;*/
+  top: 18px;
   z-index: 30;
   width: 360px;
 }
