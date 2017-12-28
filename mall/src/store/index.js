@@ -5,7 +5,10 @@ Vue.use(Vuex)
 
 let store = new Vuex.Store({
 	state: {
-		carPanelData: []
+		carPanelData: [],
+		maxOff: false,
+		carShow: false,
+		carTime: null
 	},
 	getters: {
 		totleCount (state) {
@@ -31,25 +34,42 @@ let store = new Vuex.Store({
 				if (goods.sku_id === data.sku_id) {
 					goods.count++
 					bOff = false
+					if (goods.count > goods.limit_num) {
+						goods.count--
+						state.maxOff = true
+						return
+					}
+					state.carShow = true
 				}
 			})
 			//无 添加一份
-			if(bOff){
+			if (bOff) {
 				let goodsData = data
 				//设置count的值
 				Vue.set(goodsData,'count',1)
 				state.carPanelData.push(goodsData);
+				state.carShow = true
 			}
-			console.log(state.carPanelData);
-			
 		},
 		delCarPanelData (state,id) {
 			state.carPanelData.forEach((goods,index) => {
-				if(goods.sku_id === id){
+				if (goods.sku_id === id) {
 					state.carPanelData.splice(index,1)
 					return
 				}
 			})
+		},
+		closePrompt (state) {
+			state.maxOff = false
+		},
+		showCar (state) {
+			clearTimeout(state.carTime)
+			state.carShow = true
+		},
+		hideCar (state) {
+			state.carTime = setTimeout(() => {
+				state.carShow = false
+			},200)
 		}
 	}
 })
