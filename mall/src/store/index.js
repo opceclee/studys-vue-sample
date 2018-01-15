@@ -8,7 +8,12 @@ let store = new Vuex.Store({
 		carPanelData: [],
 		maxOff: false,
 		carShow: false,
-		carTime: null
+		carTime: null,
+		ball:{
+			show:false,
+			el:null,
+			img:''
+		}
 	},
 	getters: {
 		totleCount (state) {
@@ -50,6 +55,9 @@ let store = new Vuex.Store({
 				state.carPanelData.push(goodsData);
 				state.carShow = true
 			}
+			state.ball.show = true
+			state.ball.img = data.ali_image
+			state.ball.el = event.path[0]
 		},
 		delCarPanelData (state,id) {
 			state.carPanelData.forEach((goods,index) => {
