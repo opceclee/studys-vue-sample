@@ -35,29 +35,34 @@ let store = new Vuex.Store({
 		addCarPanelData (state,data){
 			let bOff = true
 			//加入购物车已存在
-			state.carPanelData.forEach((goods) => {
-				if (goods.sku_id === data.sku_id) {
-					goods.count++
-					bOff = false
-					if (goods.count > goods.limit_num) {
-						goods.count--
-						state.maxOff = true
-						return
+			if(!state.ball.show){
+				state.carPanelData.forEach((goods) => {
+					if (goods.sku_id === data.sku_id) {
+						goods.count++
+						bOff = false
+						if (goods.count > goods.limit_num) {
+							goods.count--
+							state.maxOff = true
+							return
+						}
+						state.carShow = true
+						state.ball.show = true
+						state.ball.img = data.ali_image
+						state.ball.el = event.path[0]
 					}
+				})
+				//无 添加一份
+				if (bOff) {
+					let goodsData = data
+					//设置count的值
+					Vue.set(goodsData,'count',1)
+					state.carPanelData.push(goodsData);
 					state.carShow = true
+					state.ball.show = true
+					state.ball.img = data.ali_image
+					state.ball.el = event.path[0]
 				}
-			})
-			//无 添加一份
-			if (bOff) {
-				let goodsData = data
-				//设置count的值
-				Vue.set(goodsData,'count',1)
-				state.carPanelData.push(goodsData);
-				state.carShow = true
 			}
-			state.ball.show = true
-			state.ball.img = data.ali_image
-			state.ball.el = event.path[0]
 		},
 		delCarPanelData (state,id) {
 			state.carPanelData.forEach((goods,index) => {
