@@ -118,14 +118,16 @@
 
 <style>
 	.ball-enter-active{
-		transition: 1s;
+		transition: 1s cubic-bezier(.08,.76,.59,1.36);
 	}
 	.ball-enter-active .mask-item{
-		transition: 1s;
+		transition: 1s cubic-bezier(0,0,1,1);
 	}
-	/*.mask-item{
+	.mask-item{
 		width: 50px;
 		height: 50px;
 		border-radius: 50%;
-	}*/
+		position:absolute;
+		z-index: 9999;
+	}
 </style>
