@@ -6,12 +6,19 @@ import '@/assets/css/header.css'
 Vue.use(Router)
 
 import Shop from '@/views/shop'
+import Item from '@/views/item'
 export default new Router({
+	mode: 'history',
   routes: [
 	  {
 	  	path : '/',
-	  	name : Shop,
+	  	name : 'Shop',
 	  	component : Shop
-	  } 
+	  },
+	  {
+	  	path : '/item',
+	  	name : 'Item',
+	  	component : Item
+	  }
   ]
 })
