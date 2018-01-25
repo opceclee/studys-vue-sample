@@ -6,20 +6,16 @@
 						<div class="gallery">
 							<div class="thumbnail">
 								<ul>
-									<li :class="{'on':img.sku_id == index}" v-for="img,index in itemInfo.ali_images"><img 
+									<li :class="{'on': index == imgIndex}" @click="tabImg(index)" v-for="img,index in itemInfo.ali_images"><img 
 										:src="img+'?x-oss-process=image/resize,w_54/quality,Q_90/format,webp'"></li>
 								</ul>
 							</div>
 							<div class="thumb">
 								<ul>
-									<li class="on" v-for="img,index in itemInfo.ali_images"><img 
+									<li :class="{'on': index == imgIndex}" v-for="img,index in itemInfo.ali_images"><img 
 										:src="img+'?x-oss-process=image/resize,w_440/quality,Q_90/format,webp'"></li>
-									<!--<li><img src="../assets/img/goods/b1.png"></li>
-									<li><img src="../assets/img/goods/b1.png"></li>
-									<li><img src="../assets/img/goods/b1.png"></li>
-									<li><img src="../assets/img/goods/b1.png"></li>-->
 								</ul>
-							</div>
+							</div> 
 						</div>
 					</div>
 					<div class="banner">
@@ -36,8 +32,10 @@
 							<div class="sku-dynamic-params clear">
 								<span class="params-name">颜色</span>
 								<ul class="params-colors">
-									<li class="cur">
-										<a><img src="http://img01.smartisanos.cn/attr/v2/1000299/B37F37544921114CEF1EC01ED4DF44E4/20X20.jpg"></a>
+									<li :class="{'cur':color.id == itemId}" v-for="color,index in itemInfo.sku_list">
+										<router-link :to="{name:'Item',query:{itemId:color.id}}" :title="color.color">
+											<img :src="'http://img01.smartisanos.cn/'+ color.image +'20X20.jpg'">
+										</router-link>
 									</li>
 								</ul>
 							</div>
@@ -71,7 +69,14 @@
 		data () {
 			return {
 				itemsData : itemsData,
-				itemId : this.$route.query.itemId
+				itemId : this.$route.query.itemId,
+				imgIndex : 0
+			}
+		},
+		watch: {
+			'$route.query.itemId' () {
+				this.itemId = this.$route.query.itemId
+				this.imgIndex = 0
 			}
 		},
 		computed: {
@@ -80,6 +85,11 @@
 					return  Number(item.sku_id) === Number(this.itemId)
 				})[0]
 				return itemInfo
+			}
+		},
+		methods:{
+			tabImg (index) {
+				this.imgIndex = index
 			}
 		}
 	}
