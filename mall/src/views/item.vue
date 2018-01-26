@@ -43,16 +43,16 @@
 								<div class="params-name">数量</div>
 								<div class="params-detail clear">
 									<div class="item-num js-select-quantity">
-										<span class="down down-disabled">-</span>
-										<span class="num">1</span>
-										<span class="up up-disabled">+</span>
+										<span class="down " :class="{'down-disabled':count <= 1}" @click="subCount">-</span>
+										<span class="num">{{count}}</span>
+										<span class="up " :class="{'up-disabled':count >= itemInfo.limit_num}" @click="addCount">+</span>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="sku-status">
 							<div class="cart-operation-wrapper clearfix">
-								<span class="blue-title-btn js-add-cart"><a>加入购物车</a></span>
+								<span class="blue-title-btn js-add-cart" @click="addCarPanelHeadle(itemInfo)"><a>加入购物车</a></span>
 								<span class="gray-title-btn"><a>现在购买</a></span>
 							</div>
 						</div>
@@ -64,13 +64,14 @@
 
 <script>
 	import itemsData from '@/lib/newItemsData'
-	
+	import prompt from '@/components/prompt'
 	export default {
 		data () {
 			return {
 				itemsData : itemsData,
 				itemId : this.$route.query.itemId,
-				imgIndex : 0
+				imgIndex : 0,
+				count : 1
 			}
 		},
 		watch: {
@@ -78,6 +79,9 @@
 				this.itemId = this.$route.query.itemId
 				this.imgIndex = 0
 			}
+		},
+		components: {
+			prompt
 		},
 		computed: {
 			itemInfo () {
@@ -90,6 +94,21 @@
 		methods:{
 			tabImg (index) {
 				this.imgIndex = index
+			},
+			addCarPanelHeadle (itemData) {//添加购物车
+				this.$store.commit('addCarPanelData',itemData);
+			},
+			addCount () {
+				this.count++
+				if (this.count >= this.itemInfo.limit_num) {
+					this.count = this.itemInfo.limit_num
+				}
+			},
+			subCount () {
+				this.count--
+				if (this.count <= 1) {
+					this.count = 1
+				}
 			}
 		}
 	}
