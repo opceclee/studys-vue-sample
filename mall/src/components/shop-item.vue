@@ -50,7 +50,7 @@
 			tabIndex (index){// 选中颜色的切换效果
 				this.itemIndex = index
 			},
-			addCarPanelHeadle (data) {//
+			addCarPanelHeadle (data) {//添加购物车
 				this.$store.commit('addCarPanelData',data);
 			}
 		}
