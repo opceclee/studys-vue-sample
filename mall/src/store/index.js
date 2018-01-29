@@ -78,6 +78,20 @@ let store = new Vuex.Store({
 				}
 			})
 		},
+		/**
+		 *清单数量加
+		 */
+		pluCarPanelData (state,id) {
+			state.carPanelData.forEach((goods,index) => {
+				if (goods.sku_id === id) {
+					if (goods.count >= goods.limit_num) {
+						return
+					}
+					goods.count++
+					return
+				}
+			})
+		},
 		closePrompt (state) {
 			state.maxOff = false
 		},
