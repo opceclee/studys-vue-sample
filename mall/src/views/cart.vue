@@ -44,11 +44,11 @@
 										<div class="subtotal">¥ {{item.price*item.count}}.00</div>
 										<div class="item-cols-num">
 											<div class="select js-select-quantity">
-												<span class="down down-disabled">-</span>
+												<span class="down " :class="{'down-disabled':item.count<1}">-</span>
 												<span class="num">
 												{{item.count}}		
 												</span>
-												<span class="up" @click="pluCarPanelDataHeadl(item.sku_id)">+</span>
+												<span class="up" :class="{'up-disabled':item.count>=item.limit_num}" @click="pluCarPanelDataHeadl(item.sku_id)">+</span>
 											</div>
 										</div>
 										<div class="price">¥ {{item.price}}.00</div>
