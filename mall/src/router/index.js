@@ -7,6 +7,7 @@ Vue.use(Router)
 
 import Shop from '@/views/shop'
 import Item from '@/views/item'
+import Cart from '@/views/cart'
 export default new Router({
 	mode: 'history',
   routes: [
@@ -19,6 +20,11 @@ export default new Router({
 	  	path : '/item',
 	  	name : 'Item',
 	  	component : Item
+	  },
+	  {
+	  	path : '/cart',
+	  	name : 'Cart',
+	  	component : Cart
 	  }
   ]
 })
