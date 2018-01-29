@@ -51,7 +51,8 @@
 				this.itemIndex = index
 			},
 			addCarPanelHeadle (data) {//添加购物车
-				this.$store.commit('addCarPanelData',data);
+				let itemData = {info:data,count:1}
+				this.$store.commit('addCarPanelData',itemData);
 			}
 		}
 	}
