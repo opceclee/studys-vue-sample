@@ -59,7 +59,8 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		<prompt></prompt>
+	</div>
 </template>
 
 <script>
@@ -95,7 +96,8 @@
 			tabImg (index) {
 				this.imgIndex = index
 			},
-			addCarPanelHeadle (itemData) {//添加购物车
+			addCarPanelHeadle () {//添加购物车
+				let itemData = {info:this.itemInfo,count:this.count}
 				this.$store.commit('addCarPanelData',itemData);
 			},
 			addCount () {
