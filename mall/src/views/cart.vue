@@ -6,11 +6,11 @@
 					<h2>购物清单</h2>
 				</div>
 				<div class="cart-inner">
-					<div class="empty-label hide">
+					<div class="empty-label" v-if="count<=0">
 						<h3>您的购物车中还没有商品</h3>
-						<a class="link" href="javascript:;">现在选购</a>
+						<router-link class="link" to="/">现在选购</router-link>
 					</div>
-					<div>
+					<div v-else>
 						<div class="cart-table-title">
 							<span class="name">商品信息</span>
 							<span class="operation">操作</span>
@@ -46,13 +46,9 @@
 											<div class="select js-select-quantity">
 												<span class="down down-disabled">-</span>
 												<span class="num">
-															<input type="text" style="display: inline-block;">
-															<ul><
-																<li>1</li>
-																<li>2</li>
-															</ul>
-														</span>
-												<span class="up">+</span>
+												{{item.count}}		
+												</span>
+												<span class="up" @click="pluCarPanelDataHeadl(item.sku_id)">+</span>
 											</div>
 										</div>
 										<div class="price">¥ {{item.price}}.00</div>
@@ -63,7 +59,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="cart-bottom-bg fix-bottom">
+				<div class="cart-bottom-bg fix-bottom" v-if="count>0">
 					<div class="cart-bar-operation">
 						<div>
 							<div class="choose-all js-choose-all">
@@ -113,6 +109,9 @@
 		methods: {
 			delCarPanelHeadl (id) {
 				this.$store.commit('delCarPanelData',id)
+			},
+			pluCarPanelDataHeadl (id) {
+				this.$store.commit('pluCarPanelData',id)
 			}
 		}
 	}
