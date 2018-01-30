@@ -44,7 +44,7 @@
 										<div class="subtotal">¥ {{item.price*item.count}}.00</div>
 										<div class="item-cols-num">
 											<div class="select js-select-quantity">
-												<span class="down " :class="{'down-disabled':item.count<1}">-</span>
+												<span class="down " :class="{'down-disabled':item.count<=1}" @click="subCarPanelDataHeadl(item.sku_id)">-</span>
 												<span class="num">
 												{{item.count}}		
 												</span>
@@ -112,6 +112,9 @@
 			},
 			pluCarPanelDataHeadl (id) {
 				this.$store.commit('pluCarPanelData',id)
+			},
+			subCarPanelDataHeadl (id) {
+				this.$store.commit('subCarPanelData',id)
 			}
 		}
 	}
