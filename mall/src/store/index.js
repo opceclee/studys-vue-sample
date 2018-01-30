@@ -92,6 +92,20 @@ let store = new Vuex.Store({
 				}
 			})
 		},
+		/**
+		 * 清单数量减
+		 */
+		subCarPanelData (state,id) {
+			state.carPanelData.forEach((goods,index) => {
+				if (goods.sku_id === id) {
+					if (goods.count <= 1) {
+						return
+					}
+					goods.count--
+					return
+				}
+			})
+		},
 		closePrompt (state) {
 			state.maxOff = false
 		},
