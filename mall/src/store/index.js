@@ -15,6 +15,9 @@ let store = new Vuex.Store({
 			img:''
 		}
 	},
+	/**
+	 * 计算
+	 */
 	getters: {
 		/**
 		 * 总量
@@ -32,6 +35,19 @@ let store = new Vuex.Store({
 				price += goods.price * goods.count
 			})
 			return price
+		},
+		/**
+		 * 监听全选状态 
+		 */
+		allChecked (state) {
+			let allCheck = true
+			state.carPanelData.forEach((goods) => {
+				if (!goods.isChecked) {
+					allCheck = false
+					return
+				}
+			})
+			return allCheck
 		}
 	},
 	mutations: {
@@ -59,6 +75,7 @@ let store = new Vuex.Store({
 					let goodsData = data.info
 					//设置count的值
 					Vue.set(goodsData,'count',data.count)
+					Vue.set(goodsData,'isChecked',true)
 					state.carPanelData.push(goodsData);
 					state.carShow = true
 					state.ball.show = true
@@ -117,6 +134,25 @@ let store = new Vuex.Store({
 			state.carTime = setTimeout(() => {
 				state.carShow = false
 			},200)
+		},
+		/**
+		 * 单选点击事件
+		 */
+		isChecked (state,id) {
+			state.carPanelData.forEach((goods,index) => {
+				if (goods.sku_id === id) {
+					goods.isChecked = !goods.isChecked
+					return
+				}
+			})
+		},
+		/**
+		 * 全选点击事件
+		 */
+		isAllChecked (state,allCheck) {
+			state.carPanelData.forEach((goods,index) => {
+				goods.isChecked = !allCheck
+			})
 		}
 	}
 })
