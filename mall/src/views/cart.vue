@@ -24,7 +24,7 @@
 								<div class="cart-top-items" v-for="item,index in carPanelData">
 									<div class="cart-items">
 										<div class="items-choose">
-											<span class="blue-checkbox-new checkbox-on"><a></a></span>
+											<span class="blue-checkbox-new " :class="{'checkbox-on':item.isChecked}" @click="isCheckedheadl(item.sku_id)"><a></a></span>
 										</div>
 										<div class="items-thumb">
 											<img :src="item.ali_image+'?x-oss-process=image/resize,w_80/quality,Q_100/format,webp'">
@@ -63,7 +63,7 @@
 					<div class="cart-bar-operation">
 						<div>
 							<div class="choose-all js-choose-all">
-								<span class="blue-checkbox-new checkbox-on"><a></a></span> 全选
+								<span class="blue-checkbox-new " :class="{'checkbox-on':allChecked}" @click="isAllCheckedHeadl(allChecked)"><a></a></span> 全选
 							</div>
 							<div class="delete-choose-goods">删除选中的商品</div>
 						</div>
@@ -104,6 +104,9 @@
 			},
 			count () {
 				return this.$store.getters.totleCount
+			},
+			allChecked () {
+				return this.$store.getters.allChecked
 			}
 		},
 		methods: {
@@ -115,6 +118,12 @@
 			},
 			subCarPanelDataHeadl (id) {
 				this.$store.commit('subCarPanelData',id)
+			},
+			isCheckedheadl (id) {
+				this.$store.commit('isChecked',id)
+			},
+			isAllCheckedHeadl (allCheck) {
+				this.$store.commit('isAllChecked',allCheck)
 			}
 		}
 	}
