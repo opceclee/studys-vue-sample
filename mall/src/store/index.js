@@ -48,6 +48,30 @@ let store = new Vuex.Store({
 				}
 			})
 			return allCheck
+		},
+		/**
+		 * 计算选中商品总数
+		 */
+		checkCount (state) {
+			let count = 0
+			state.carPanelData.forEach((goods,index) => {
+				if (goods.isChecked) {
+					count += goods.count
+				}
+			})
+			return count
+		},
+		/**
+		 * 计算选中商品总价
+		 */
+		checkPrice (state) {
+			let price = 0
+			state.carPanelData.forEach((goods,index) => {
+				if (goods.isChecked) {
+					price += goods.count * goods.price
+				}
+			})
+			return price
 		}
 	},
 	mutations: {
@@ -153,6 +177,17 @@ let store = new Vuex.Store({
 			state.carPanelData.forEach((goods,index) => {
 				goods.isChecked = !allCheck
 			})
+		},
+		/**
+		 * 选中商品删除
+		 */
+		delCheckGoods (state) {
+			let i = state.carPanelData.length
+			while　(i--) {
+				if (state.carPanelData[i].isChecked) {
+					state.carPanelData.splice(i,1)
+				}
+			}
 		}
 	}
 })
