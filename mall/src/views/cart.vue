@@ -65,14 +65,14 @@
 							<div class="choose-all js-choose-all">
 								<span class="blue-checkbox-new " :class="{'checkbox-on':allChecked}" @click="isAllCheckedHeadl(allChecked)"><a></a></span> 全选
 							</div>
-							<div class="delete-choose-goods">删除选中的商品</div>
+							<div class="delete-choose-goods" @click="delCheckGoodsHeadl">删除选中的商品</div>
 						</div>
 					</div>
 					<div class="shipping">
 						<div class="shipping-box">
 							<div class="shipping-total shipping-num">
 								<h4 class="">
-											已选择 <i>0</i> 件商品
+											已选择 <i>{{checkCount}}</i> 件商品
 										</h4>
 								<h5>
 											共计 <i >{{count}}</i> 件商品
@@ -80,13 +80,13 @@
 							</div>
 							<div class="shipping-total shipping-price">
 								<h4 class="">
-											应付总额：<span>￥</span><i >0</i> 
+											应付总额：<span>￥</span><i >{{checkPrice}}</i> 
 										</h4>
 								<h5 class="shipping-tips">
 											应付总额不含运费
 										</h5>
 	
-							</div>
+							</div> 
 						</div>
 						<span class="jianguo-blue-main-btn big-main-btn js-checkout disabled-btn"><a>现在结算</a></span>
 					</div>
@@ -107,6 +107,12 @@
 			},
 			allChecked () {
 				return this.$store.getters.allChecked
+			},
+			checkCount () {
+				return this.$store.getters.checkCount
+			},
+			checkPrice () {
+				return this.$store.getters.checkPrice
 			}
 		},
 		methods: {
@@ -124,6 +130,9 @@
 			},
 			isAllCheckedHeadl (allCheck) {
 				this.$store.commit('isAllChecked',allCheck)
+			},
+			delCheckGoodsHeadl () {
+				this.$store.commit('delCheckGoods')
 			}
 		}
 	}
