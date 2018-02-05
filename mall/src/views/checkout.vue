@@ -9,11 +9,11 @@
 					<div class="box-inner js-checkout-address-panel ">
 						<div class="address-common-table js-multiple-address-panel">
 							<ul class="address-item-list clear js-address-item-list">
-								<li class="js-choose-address  selected-address-item">
+								<li class="js-choose-address  selected-address-item" v-for="item,index in receiveInfo">
 									<div class="address-item">
-										<div class="name-section"> 王某某 </div>
-										<div class="mobile-section">13810000000</div>
-										<div class="detail-section"> 北京市 市辖区 海淀区<br> 上地十街辉煌国际大商西6号楼319室 </div>
+										<div class="name-section"> {{item.name}} </div>
+										<div class="mobile-section">{{item.phone}}</div>
+										<div class="detail-section"> {{item.province}} {{item.city}} {{item.county}}<br> {{item.add}} </div>
 									</div>
 									<div class="operation-section">
 										<span class="update-btn js-edit-address">修改</span>
@@ -108,6 +108,11 @@
 
 <script>
 	export default {
+		data () {
+			return {
+				receiveIndex : 0
+			}
+		},
 		computed : {
 			checkGoods () {
 				return this.$store.getters.checkGoods
@@ -124,8 +129,15 @@
 					freight = 0
 				}
 				return freight
+			},
+			/**
+			 * 收货地址信息
+			 */
+			receiveInfo () {
+				return this.$store.state.receiveInfo
 			}
-		}
+		},
+		methods : {}
 	}
 </script>
 
