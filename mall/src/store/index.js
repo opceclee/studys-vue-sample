@@ -6,6 +6,7 @@ Vue.use(Vuex)
 let store = new Vuex.Store({
 	state: {
 		carPanelData: [],
+		receiving: [],
 		maxOff: false,
 		carShow: false,
 		carTime: null,
@@ -72,6 +73,18 @@ let store = new Vuex.Store({
 				}
 			})
 			return price
+		},
+		/**
+		 * 选中结算商品
+		 */
+		checkGoods (state) {
+			let checkGoods = []
+			state.carPanelData.forEach((goods) => {
+				if　(goods.isChecked)　{
+					checkGoods.push(goods)
+				}
+			})
+			return checkGoods
 		}
 	},
 	mutations: {
