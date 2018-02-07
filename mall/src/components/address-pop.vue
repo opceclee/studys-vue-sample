@@ -97,16 +97,17 @@
 </template>
 
 <script>
-	export default {
-		methods: {
-			/**
-			 * 组件传递关闭信息让父级去调用
-			 */
-			closePop () {
-				this.$emit('close')
-			}
+import addList from '@/lib/addList'
+export default {
+	methods: {
+		/**
+		 * 组件传递关闭信息让父级去调用
+		 */
+		closePop () {
+			this.$emit('close')
 		}
 	}
+}
 </script>
 
 <style>
