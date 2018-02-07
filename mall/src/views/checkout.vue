@@ -22,7 +22,7 @@
 										<span class="delete-btn js-delete-address">删除</span>
 									</div>
 								</li>
-								<li class="add-address-item js-add-address">
+								<li class="add-address-item js-add-address" @click="showPop">
 									<p>使用新地址</p>
 								</li>
 							</ul>
@@ -40,17 +40,18 @@
 						<div class="radio-box">
 							<label> 
 										<input type="radio" class="hide"> 
-										<span class="blue-radio blue-radio-on"><a></a></span>  个人
+										<span class="blue-radio" :class="{'blue-radio-on':invoice.personal}" @click="checkedInv(true)"><a></a></span>  个人
 									</label>
 							<label> 
 										<input type="radio" class="hide"> 
-										<span class="blue-radio"><a></a></span>  单位
+										<span class="blue-radio" :class="{'blue-radio-on':!invoice.personal}" @click="checkedInv(false)"><a></a></span>  单位
 									</label>
 						</div>
-						<div class="module-form-row form-item fn-hide js-invoice-title">
+						<div class="module-form-row form-item fn-hide js-invoice-title" v-if="!invoice.personal">
 							<div class="module-form-item-wrapper no-icon small-item">
-								<i>请填写公司发票抬头</i>
-								<input type="text" class="js-verify">
+								<i v-show="!invoice.name">请填写公司发票抬头</i>
+								<input type="text" class="js-verify" v-model="invoice.name">
+								<div class="verify-error" v-show="!invoice.name">必填</div>
 							</div>
 						</div>
 					</div>
@@ -105,24 +106,34 @@
 				</div>
 			</div>
 		</div>
+		<address-pop v-if="addressShow" @close="closePop"></address-pop>
 	</div>
 </template>
 
 <script>
+	import addressPop from '@/components/address-pop'
 	export default {
 		data () {
 			return {
-				receiveIndex : 0
+				receiveIndex : 0,
+				addressShow : false,
+				invoice : {
+					personal : true,
+					name : ''
+				}
 			}
 		},
-    created () {
-      this.$store.state.receiveInfo.forEach((receive,index) => {
-        if (receive.default) {
-          this.receiveIndex = index
-          return
-        }
-      })
-    },
+	    created () {
+	      this.$store.state.receiveInfo.forEach((receive,index) => {
+	        if (receive.default) {
+	          this.receiveIndex = index
+	          return
+	        }
+	      })
+	    },
+	    components : {
+	    	addressPop
+	    },
 		computed : {
 			checkGoods () {
 				return this.$store.getters.checkGoods
@@ -148,10 +159,28 @@
 			}
 		},
 		methods : {
-      chooseReceive (index) {
-        this.receiveIndex = index
-      }
-    }
+	        chooseReceive (index) {
+	        	this.receiveIndex = index
+	        },
+	        /**
+	         * 弹窗关闭
+	         */
+	        closePop () {
+	        	this.addressShow = false
+	        },
+         	/**
+	        * 弹窗显示
+	        */
+	        showPop () {
+	        	this.addressShow = true
+	        },
+	        /**
+	         * 发票抬头交互
+	         */
+	        checkedInv (boole) {
+	        	this.invoice.personal = boole
+	        }
+	    }
 	}
 </script>
 
