@@ -9,7 +9,9 @@
 					<div class="box-inner js-checkout-address-panel ">
 						<div class="address-common-table js-multiple-address-panel">
 							<ul class="address-item-list clear js-address-item-list">
-								<li class="js-choose-address  selected-address-item" v-for="item,index in receiveInfo">
+								<li class="js-choose-address" 
+                :class="{'selected-address-item':receiveIndex == index}" 
+                v-for="item,index in receiveInfo" @click="chooseReceive(index)">
 									<div class="address-item">
 										<div class="name-section"> {{item.name}} </div>
 										<div class="mobile-section">{{item.phone}}</div>
@@ -113,6 +115,14 @@
 				receiveIndex : 0
 			}
 		},
+    created () {
+      this.$store.state.receiveInfo.forEach((receive,index) => {
+        if (receive.default) {
+          this.receiveIndex = index
+          return
+        }
+      })
+    },
 		computed : {
 			checkGoods () {
 				return this.$store.getters.checkGoods
@@ -137,7 +147,11 @@
 				return this.$store.state.receiveInfo
 			}
 		},
-		methods : {}
+		methods : {
+      chooseReceive (index) {
+        this.receiveIndex = index
+      }
+    }
 	}
 </script>
 
