@@ -16,66 +16,56 @@
 								<div class="address-form">
 									<div class="module-form-row">
 										<div class="form-item-v3">
-											<i>收货人姓名</i>
-											<input type="text" class="js-verify">
+											<i v-show="addInfo.name == ''">收货人姓名</i>
+											<input type="text" class="js-verify" v-model="addInfo.name">
 											<div class="verify-error"></div>
 										</div>
 									</div>
 									<div class="module-form-row">
-										<div class="form-item-v3">
-											<i>手机号</i>
-											<input type="text" class="js-verify">
+										<div class="form-item-v3" :class="{'form-invalid-item':phoneError}">
+											<i v-show="addInfo.phone == ''">手机号</i>
+											<input type="text" class="js-verify" v-model="addInfo.phone" @blur="verifyPhone" @focus="setPhone">
 											<div class="verify-error"></div>
 										</div>
 									</div>
 									<div class="module-form-row clear">
 										<div class="form-item-v3 area-code-w fn-left form-valid-item">
-											<i>区号（可选）</i>
-											<input type="text" class="js-verify js-address-area-code">
+											<i v-show="addInfo.areaCode == ''">区号（可选）</i>
+											<input type="text" class="js-verify js-address-area-code" v-model="addInfo.areaCode">
 											<div class="verify-error"></div>
 										</div>
 										<div class="form-item-v3 telephone-w fn-right form-valid-item">
-											<i>固定电话（可选）</i>
-											<input type="text" class="js-verify js-address-telephone">
+											<i v-show="addInfo.landLine == ''">固定电话（可选）</i>
+											<input type="text" class="js-verify js-address-telephone"  v-model="addInfo.landLine">
 											<div class="verify-error"></div>
 										</div>
 									</div>
 									<div class="module-form-row clear">
 										<div class="form-item-v3 select-item province-wrapper">
-											<select name="province_code" class="province select-province js-form-province js-verify">
+											<select name="province_code" class="province select-province js-form-province js-verify" v-model="addInfo.provinceId">
 												<option value="0">请选择省份</option>
-												<option value="110000">北京市</option>
-												<option value="440000">广东省</option>
-												<option value="310000">上海市</option>
-												<option value="320000">江苏省</option>
-												<option value="330000">浙江省</option>
-												<option value="370000">山东省</option>
-												<option value="410000">河南省</option>
-												<option value="510000">四川省</option>
-												<option value="130000">河北省</option>
-												<option value="420000">湖北省</option>
-												<option value="340000">安徽省</option>
-												<option value="350000">福建省</option>
+												<option :value="province.area_id" v-for="province,index in addList">{{province.area_name}}</option>
 											</select>
 										</div>
 									</div>
 									<div class="module-form-row clear">
 										<div class="form-item-v3 select-item city-wrapper fn-left form-focus-item">
-											<select class="city select-city js-form-city js-verify">
+											<select class="city select-city js-form-city js-verify" v-model="addInfo.cityId">
 												<option value="0">请选择城市</option>
+												<option :value="city.area_id" v-for="city,index in cityList">{{city.area_name}}</option>
 											</select>
 										</div>
 										<div class="form-item-v3 select-item district-wrapper fn-right form-focus-item">
-											<select class="city select-city js-form-city js-verify">
+											<select class="city select-city js-form-city js-verify" v-model="addInfo.countyId">
 												<option value="0">请选择区县</option>
-												<option value="0">请选择区县</option>
+												<option :value="county.area_id" v-for="county,index in countyList">{{county.area_name}}</option>
 											</select>
 										</div>
 									</div>
 									<div class="module-form-row">
 										<div class="form-item-v3">
-											<i>详细地址，如街道名称，楼层，门牌号码等</i>
-											<input type="text" class="js-verify">
+											<i v-show="addInfo.add == ''">详细地址，如街道名称，楼层，门牌号码等</i>
+											<input type="text" class="js-verify" v-model="addInfo.add">
 											<div class="verify-error"></div>
 										</div>
 									</div>
@@ -99,12 +89,80 @@
 <script>
 import addList from '@/lib/addList'
 export default {
+	data () {
+		return {
+			addList,
+			addInfo: {
+		      'name': '',
+		      'phone': '',
+		      'areaCode': '',
+		      'landLine': '',
+		      'provinceId': 0,
+		      'province': '',
+		      'cityId': 0,
+		      'city': '',
+		      'countyId': 0,
+		      'county': '',
+		      'add': '',
+		      'default': true
+		    },
+		    phoneError: false
+		}
+	},
+	computed: {
+		/**
+		 * 城市数据
+		 */
+		cityList () {
+			let cityList = []
+			this.addList.forEach((province) => {
+				if (province.area_id === this.addInfo.provinceId) {
+					cityList = province.city_list
+					return
+				}
+			})
+			if (this.addInfo.provinceId === '0') {
+				this.addInfo.cityId = 0
+				this.addInfo.countyId = 0
+			}
+			return cityList
+		},
+		/**
+		 * 县区数据
+		 */
+		countyList () {
+			let countyList = []
+			this.cityList.forEach((city) => {
+				if (city.area_id === this.addInfo.cityId) {
+					countyList = city.county_list
+					return
+				}
+			})
+			if (this.addInfo.cityId === '0') {
+				this.addInfo.countyId = 0
+			}
+			return countyList
+		}
+	},
 	methods: {
 		/**
 		 * 组件传递关闭信息让父级去调用
 		 */
 		closePop () {
 			this.$emit('close')
+		},
+		/**
+		 * 验证手机号
+		 */
+		verifyPhone () {
+			if (this.addInfo.phone.length === 11) {
+				this.phoneError = false
+			}else {
+				this.phoneError = true
+			}
+		},
+		setPhone () {
+			this.phoneError = false
 		}
 	}
 }
