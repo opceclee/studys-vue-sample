@@ -123,6 +123,9 @@
 				}
 			}
 		},
+		/**
+		 * 初始化默认地址 
+		 */
 	    created () {
 	      this.$store.state.receiveInfo.forEach((receive,index) => {
 	        if (receive.default) {
@@ -167,6 +170,12 @@
 	         */
 	        closePop () {
 	        	this.addressShow = false
+	        	this.$store.state.receiveInfo.forEach((receive,index) => {
+			        if (receive.default) {
+			          this.receiveIndex = index
+			          return
+			        }
+		        })
 	        },
          	/**
 	        * 弹窗显示
