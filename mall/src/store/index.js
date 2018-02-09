@@ -116,7 +116,9 @@ let store = new Vuex.Store({
 	mutations: {
 		addCarPanelData (state,data){
 			let bOff = true
-			//加入购物车已存在
+			/**
+			 * 加入购物车已存在
+			 */
 			if(!state.ball.show){
 				state.carPanelData.forEach((goods) => {
 					if (goods.sku_id === data.info.sku_id) {
@@ -218,7 +220,7 @@ let store = new Vuex.Store({
 			})
 		},
 		/**
-		 * 选中商品删除
+		 * 选中商品删除,小技巧删除从后往前删
 		 */
 		delCheckGoods (state) {
 			let i = state.carPanelData.length
@@ -227,6 +229,17 @@ let store = new Vuex.Store({
 					state.carPanelData.splice(i,1)
 				}
 			}
+		},
+		/**
+		 * 提交
+		 */
+		submitFrom (state,data) {
+			if (data.default) {
+				state.receiveInfo.forEach((receive) => {
+					receive.default = false
+				})
+			}
+			state.receiveInfo.push(data)
 		}
 	}
 })
