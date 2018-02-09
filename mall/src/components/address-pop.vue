@@ -71,9 +71,9 @@
 									</div>
 									<div class="module-form-row fn-clear">
 										<input type="checkbox" class="hide">
-										<span class="blue-checkbox"></span>设为默认
+										<span class="blue-checkbox" :class="{'blue-checkbox-on':addInfo.default}" @click="checkDefault"></span>设为默认
 									</div>
-									<div class="dialog-blue-btn big-main-btn disabled-btn js-verify-address">
+									<div class="dialog-blue-btn big-main-btn js-verify-address" :class="{'disabled-btn':!isReg}" @click="submitFromHeadl">
 										<a>保存</a>
 									</div>
 								</div>
@@ -104,9 +104,29 @@ export default {
 		      'countyId': 0,
 		      'county': '',
 		      'add': '',
-		      'default': true
+		      'default': false
 		    },
-		    phoneError: false
+		    phoneError: false,
+		    isReg: false
+		}
+	},
+	watch: {
+		'addInfo.countyId' () {
+			this.countyList.forEach((county) => {
+				if (county.area_id === this.addInfo.countyId) {
+					this.addInfo.county = county.area_name
+					return
+				}
+			})
+		},
+		/**
+		 * 深度监听addInfo
+		 */
+		addInfo : {
+			handler () {
+				this.regAddInfo()
+			},
+			deep: true
 		}
 	},
 	computed: {
@@ -118,6 +138,7 @@ export default {
 			this.addList.forEach((province) => {
 				if (province.area_id === this.addInfo.provinceId) {
 					cityList = province.city_list
+					this.addInfo.province = province.area_name
 					return
 				}
 			})
@@ -135,6 +156,7 @@ export default {
 			this.cityList.forEach((city) => {
 				if (city.area_id === this.addInfo.cityId) {
 					countyList = city.county_list
+					this.addInfo.city = city.area_name
 					return
 				}
 			})
@@ -163,6 +185,31 @@ export default {
 		},
 		setPhone () {
 			this.phoneError = false
+		},
+		/**
+		 * 默认设置
+		 */
+		checkDefault () {
+			this.addInfo.default = !this.addInfo.default
+		},
+		/**
+		 * 验证
+		 */
+		regAddInfo () {
+			if (this.addInfo.name && !this.phoneError && this.addInfo.province && this.addInfo.city && this.addInfo.county && this.addInfo.add) {
+				this.isReg = true
+			}else {
+				this.isReg = false
+			}
+		},
+		/**
+		 * 提交
+		 */
+		submitFromHeadl () {
+			if (this.isReg) {
+				this.$store.commit('submitFrom',this.addInfo)
+				this.$emit('close')
+			}	
 		}
 	}
 }
@@ -373,6 +420,9 @@ export default {
     height: 20px;
     background: url(../assets/img/checkbox-bg.png) no-repeat;
     cursor: pointer;
+}
+#pop .blue-checkbox-on{
+	background-position: 0 -21px;
 }
 #pop .address-form .blue-checkbox{
     top: 0;
