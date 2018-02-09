@@ -116,7 +116,7 @@
 		data () {
 			return {
 				receiveIndex : 0,
-				addressShow : true,
+				addressShow : false,
 				invoice : {
 					personal : true,
 					name : ''
