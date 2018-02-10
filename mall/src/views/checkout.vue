@@ -188,6 +188,32 @@
 	         */
 	        checkedInv (boole) {
 	        	this.invoice.personal = boole
+	        },
+	        /**
+	         * 保存提交信息
+	         */
+	        submitOrderhandl () {
+	        	if (!this.invoice.personal && !this.invoice.name) return
+	        	let receiveInfo = this.receiveInfo[receiveIndex]
+	        	if (this.invoice.personal) {
+	        		this.invoice.name = '个人'
+	        	}
+	        	let iDate = Date()
+	        	let month = iDate.getMonth()
+	        	let day = iDate.getDate()
+	        	if (month > 0 && month <= 9) {
+	        		month = '0' + month
+	        	}
+	        	if (day > 0 && day <= 9) {
+	        		day = '0' + day
+	        	}
+	        	let data = {
+	        		orderId : iDate.getTime(),
+	        		goodsData : this.checkGoods,
+	        		price : this.checkPrice,
+	        		freight : freight,
+	        		receiveInfo : receiveInfo
+	        	}
 	        }
 	    }
 	}
