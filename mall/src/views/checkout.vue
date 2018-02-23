@@ -212,7 +212,8 @@
 	        		goodsData : this.checkGoods,
 	        		price : this.checkPrice,
 	        		freight : freight,
-	        		receiveInfo : receiveInfo
+	        		receiveInfo : receiveInfo,
+	        		test : 'test'
 	        	}
 	        }
 	    }
